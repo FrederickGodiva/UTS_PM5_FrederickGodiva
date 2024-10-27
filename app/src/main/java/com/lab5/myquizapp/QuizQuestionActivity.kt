@@ -1,11 +1,12 @@
 package com.lab5.myquizapp
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.lab5.myquizapp.databinding.ActivityQuizQuestionBinding
@@ -13,38 +14,45 @@ import com.lab5.myquizapp.databinding.ActivityQuizQuestionBinding
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityQuizQuestionBinding
-    private var mUsername: String? = null
-    private var mCorrectAnswers: Int = 0
-    private var mCurrentPosition: Int = 1
-    private var mQuestionsList: ArrayList<QuizQuestion.Question>? = null
-    private var mSelectedOptionPosition: Int = 0
+    private var userName: String? = null
+    private var correctAnswer: Int = 0
+    private var currentQuestion: Int = 1
+    private var questions: ArrayList<QuizQuestion.Question>? = null
+    private var selectedOption: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        
         binding = ActivityQuizQuestionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mUsername = intent.getStringExtra("username")
+        userName = intent.getStringExtra("username")
 
-        mQuestionsList = QuizQuestion.getQuestions()
+        questions = QuizQuestion().getQuestions()
 
         binding.tvAnswer1.setOnClickListener(this)
         binding.tvAnswer2.setOnClickListener(this)
         binding.tvAnswer3.setOnClickListener(this)
         binding.tvAnswer4.setOnClickListener(this)
-        binding.btnSubmit.setOnClickListener(this)
+        binding.btnSubmit.setOnClickListener {
+            if (selectedOption == 0) {
+                Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
+            } else {
+                handleButtonClick()
+            }
+        }
 
-        // Set the first question
         setQuestion()
     }
 
     private fun setQuestion() {
         defaultOptionsView()
-        val question = mQuestionsList!![mCurrentPosition - 1]
+        val question = questions!![currentQuestion - 1]
 
         binding.ivLogo.setImageResource(question.image)
-        binding.progressBar.progress = mCurrentPosition
-        binding.tvProgress.text = "$mCurrentPosition / ${binding.progressBar.max}"
+        binding.progressBar.progress = currentQuestion
+        binding.tvProgress.text = "$currentQuestion / ${binding.progressBar.max}"
         binding.tvQuestion.text = question.question
 
         binding.tvAnswer1.text = question.optionOne
@@ -52,7 +60,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding.tvAnswer3.text = question.optionThree
         binding.tvAnswer4.text = question.optionFour
 
-        binding.btnSubmit.text = if (mCurrentPosition == mQuestionsList!!.size) {
+        binding.btnSubmit.text = if (currentQuestion == questions!!.size) {
             "FINISH"
         } else {
             "SUBMIT"
@@ -76,52 +84,52 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
         defaultOptionsView()
-        mSelectedOptionPosition = selectedOptionNum
+        selectedOption = selectedOptionNum
         tv.setTextColor(Color.parseColor("#363A43"))
-        tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border)
     }
 
     override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.tv_answer_1 -> selectedOptionView(binding.tvAnswer1, 1)
-            R.id.tv_answer_2 -> selectedOptionView(binding.tvAnswer2, 2)
-            R.id.tv_answer_3 -> selectedOptionView(binding.tvAnswer3, 3)
-            R.id.tv_answer_4 -> selectedOptionView(binding.tvAnswer4, 4)
-            R.id.btn_submit -> handleButtonClick()
+        when (v) {
+            binding.tvAnswer1 -> selectedOptionView(binding.tvAnswer1, 1)
+            binding.tvAnswer2 -> selectedOptionView(binding.tvAnswer2, 2)
+            binding.tvAnswer3 -> selectedOptionView(binding.tvAnswer3, 3)
+            binding.tvAnswer4 -> selectedOptionView(binding.tvAnswer4, 4)
+            binding.btnSubmit -> handleButtonClick()
         }
     }
 
     private fun handleButtonClick() {
-        if (mSelectedOptionPosition == 0) {
-            mCurrentPosition++
-            if (mCurrentPosition <= mQuestionsList!!.size) {
-                setQuestion()
-            } else {
-                val intent = Intent(this, ResultActivity::class.java)
-                intent.putExtra("username", mUsername)
-                intent.putExtra("correct_answers", mCorrectAnswers)
-                intent.putExtra("total_questions", mQuestionsList?.size)
-                startActivity(intent)
-                finish()
-            }
-        } else {
-            val question = mQuestionsList?.get(mCurrentPosition - 1)
-            if (question!!.correctAnswer != mSelectedOptionPosition) {
-                answerView(mSelectedOptionPosition, R.drawable.wrong_option_border)
-            } else {
-                mCorrectAnswers++
-            }
-            answerView(question.correctAnswer, R.drawable.correct_option_border)
+        val isSubmit = binding.btnSubmit.text == "SUBMIT"
 
-            binding.btnSubmit.text = if (mCurrentPosition == mQuestionsList!!.size) {
-                "FINISH"
-            } else {
-                "GO TO NEXT QUESTION"
+        if (isSubmit && selectedOption == 0) {
+            Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (isSubmit) {
+            val question = questions?.get(currentQuestion - 1)
+            question?.let {
+                if (it.correctAnswer != selectedOption) {
+                    answerView(selectedOption, R.drawable.wrong_option_border)
+                } else {
+                    correctAnswer++
+                }
+                answerView(it.correctAnswer, R.drawable.correct_option_border)
             }
-            mSelectedOptionPosition = 0
+
+            binding.btnSubmit.text = if (currentQuestion == questions!!.size) "FINISH" else "NEXT QUESTION"
+        } else {
+            if (++currentQuestion <= questions!!.size) {
+                setQuestion()
+                binding.btnSubmit.text = "SUBMIT"
+            } else {
+                Toast.makeText(this, "Quiz Finished! Correct Answers: $correctAnswer / ${questions!!.size}", Toast.LENGTH_LONG).show()
+            }
+            selectedOption = 0
         }
     }
+
 
     private fun answerView(answer: Int, drawableView: Int) {
         when (answer) {

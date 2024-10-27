@@ -1,5 +1,6 @@
 package com.lab5.myquizapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -21,7 +22,10 @@ class MainActivity : AppCompatActivity() {
             if (binding.etName.text.isNullOrEmpty()) {
                 Toast.makeText(this, "Please enter your name", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(this, "Hello ${binding.etName.text}", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, QuizQuestionActivity::class.java)
+                intent.putExtra("username", binding.etName.text.toString())
+                startActivity(intent)
+                finish()
             }
         }
 
