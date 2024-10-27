@@ -1,5 +1,6 @@
 package com.lab5.myquizapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.lab5.myquizapp.databinding.ActivityQuizQuestionBinding
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
@@ -16,7 +19,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private var userName: String? = null
     private var correctAnswer: Int = 0
     private var currentQuestion: Int = 1
-    private var questions: ArrayList<QuizQuestion.Question>? = null
+    private lateinit var questions: ArrayList<QuizQuestion.Question>
     private var selectedOption: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,11 +46,17 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         setQuestion()
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
     }
 
     private fun setQuestion() {
         defaultOptionsView()
-        val question = questions!![currentQuestion - 1]
+        val question = questions[currentQuestion - 1]
 
         binding.ivLogo.setImageResource(question.image)
         binding.progressBar.progress = currentQuestion
@@ -59,7 +68,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding.tvAnswer3.text = question.optionThree
         binding.tvAnswer4.text = question.optionFour
 
-        binding.btnSubmit.text = if (currentQuestion == questions!!.size) {
+        binding.btnSubmit.text = if (currentQuestion == questions.size) {
             "FINISH"
         } else {
             "SUBMIT"
@@ -106,8 +115,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         if (isSubmit) {
-            val question = questions?.get(currentQuestion - 1)
-            question?.let {
+            val question = questions[currentQuestion - 1]
+            question.let {
                 if (it.correctAnswer != selectedOption) {
                     answerView(selectedOption, R.drawable.wrong_option_border)
                 } else {
@@ -116,13 +125,16 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                 answerView(it.correctAnswer, R.drawable.correct_option_border)
             }
 
-            binding.btnSubmit.text = if (currentQuestion == questions!!.size) "FINISH" else "NEXT QUESTION"
+            binding.btnSubmit.text = if (currentQuestion == questions.size) "FINISH" else "NEXT QUESTION"
         } else {
-            if (++currentQuestion <= questions!!.size) {
+            if (++currentQuestion <= questions.size) {
                 setQuestion()
                 binding.btnSubmit.text = "SUBMIT"
             } else {
-                Toast.makeText(this, "Quiz Finished! Correct Answers: $correctAnswer / ${questions!!.size}", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, ResultActivity::class.java)
+                intent.putExtra("username", userName)
+                intent.putExtra("score", correctAnswer)
+                startActivity(intent)
             }
             selectedOption = 0
         }
