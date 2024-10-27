@@ -9,14 +9,12 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.lab5.myquizapp.databinding.ActivityQuizQuestionBinding
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityQuizQuestionBinding
-    private var userName: String? = null
+    private lateinit var userName: String
     private var correctAnswer: Int = 0
     private var currentQuestion: Int = 1
     private lateinit var questions: ArrayList<QuizQuestion.Question>
@@ -29,7 +27,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityQuizQuestionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userName = intent.getStringExtra("username")
+        userName = intent.getStringExtra("username").toString()
 
         questions = QuizQuestion().getQuestions()
 
@@ -46,12 +44,6 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         setQuestion()
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
     }
 
     private fun setQuestion() {
@@ -109,11 +101,6 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private fun handleButtonClick() {
         val isSubmit = binding.btnSubmit.text == "SUBMIT"
 
-        if (isSubmit && selectedOption == 0) {
-            Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         if (isSubmit) {
             val question = questions[currentQuestion - 1]
             question.let {
@@ -134,12 +121,13 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                 val intent = Intent(this, ResultActivity::class.java)
                 intent.putExtra("username", userName)
                 intent.putExtra("score", correctAnswer)
+                intent.putExtra("total_questions", questions.size)
                 startActivity(intent)
+                finish()
             }
             selectedOption = 0
         }
     }
-
 
     private fun answerView(answer: Int, drawableView: Int) {
         when (answer) {

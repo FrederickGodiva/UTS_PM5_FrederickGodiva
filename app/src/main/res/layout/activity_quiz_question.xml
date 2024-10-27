@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".QuizQuestionActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +16,7 @@
             android:id="@+id/tv_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Question 1"
+            android:text="@string/question_1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +27,7 @@
             android:id="@+id/iv_logo"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:contentDescription="Logo"
+            android:contentDescription="@string/logo"
             android:src="@drawable/gradle"
             app:layout_constraintTop_toBottomOf="@+id/tv_question"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="36dp"
+            android:layout_marginHorizontal="36dp"
             android:orientation="horizontal" >
 
             <ProgressBar
@@ -68,54 +69,54 @@
 
         <TextView
             android:id="@+id/tv_answer_1"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/default_option_border"
             app:layout_constraintTop_toBottomOf="@+id/ll_progress_bar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="36dp"
-            android:layout_marginHorizontal="52dp"
-            android:text="Answer 1"
+            android:layout_marginVertical="36dp"
+            android:layout_marginHorizontal="64dp"
+            android:text="@string/answer_1"
             android:textAlignment="center"
             android:textSize="28sp" />
 
         <TextView
             android:id="@+id/tv_answer_2"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/default_option_border"
             app:layout_constraintTop_toBottomOf="@+id/tv_answer_1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="36dp"
-            android:text="Answer 1"
+            app:layout_constraintStart_toStartOf="@+id/tv_answer_1"
+            app:layout_constraintEnd_toEndOf="@+id/tv_answer_1"
+            android:layout_marginTop="36dp"
+            android:text="@string/answer_2"
             android:textAlignment="center"
             android:textSize="28sp" />
 
         <TextView
             android:id="@+id/tv_answer_3"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/default_option_border"
             app:layout_constraintTop_toBottomOf="@+id/tv_answer_2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="36dp"
-            android:text="Answer 1"
+            app:layout_constraintStart_toStartOf="@+id/tv_answer_2"
+            app:layout_constraintEnd_toEndOf="@+id/tv_answer_2"
+            android:layout_marginTop="36dp"
+            android:text="@string/answer_3"
             android:textAlignment="center"
             android:textSize="28sp" />
 
         <TextView
             android:id="@+id/tv_answer_4"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/default_option_border"
             app:layout_constraintTop_toBottomOf="@+id/tv_answer_3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="36dp"
-            android:text="Answer 1"
+            app:layout_constraintStart_toStartOf="@+id/tv_answer_3"
+            app:layout_constraintEnd_toEndOf="@+id/tv_answer_3"
+            android:layout_marginTop="36dp"
+            android:text="@string/answer_4"
             android:textAlignment="center"
             android:textSize="28sp" />
 
@@ -123,7 +124,7 @@
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SUBMIT"
+            android:text="@string/submit"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:backgroundTint="@color/primary"
@@ -131,8 +132,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="36dp" />
-
+            android:layout_margin="48dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

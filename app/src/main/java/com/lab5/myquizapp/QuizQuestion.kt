@@ -44,11 +44,11 @@ class QuizQuestion {
             3,
             "What logo is this?",
             R.drawable.gradle,
-            "PHP",
-            "PostgreSQL",
             "Gradle",
+            "PHP",
             "Elephant",
-            3
+            "PostgreSQL",
+            1
         )
         questionList.add(q3)
 
