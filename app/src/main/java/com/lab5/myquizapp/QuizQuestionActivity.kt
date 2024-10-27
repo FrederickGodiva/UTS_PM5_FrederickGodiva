@@ -77,7 +77,6 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
         for (option in options) {
             option.setTextColor(Color.parseColor("#7A8089"))
-            option.typeface = Typeface.DEFAULT
             option.background = ContextCompat.getDrawable(this, R.drawable.default_option_border)
         }
     }
