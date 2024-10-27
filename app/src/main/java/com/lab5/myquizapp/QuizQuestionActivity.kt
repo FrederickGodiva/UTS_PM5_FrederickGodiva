@@ -1,13 +1,13 @@
 package com.lab5.myquizapp
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.lab5.myquizapp.databinding.ActivityQuizQuestionBinding
 
@@ -43,6 +43,10 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+        binding.themeModeButton.setOnClickListener {
+            toggleThemeMode()
+        }
+
         savedInstanceState?.let {
             currentQuestion = it.getInt("currentQuestion", 1)
             selectedOption = it.getInt("selectedOption", 0)
@@ -50,6 +54,13 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         setQuestion()
+
+        updateThemeModeButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateThemeModeButton()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -98,7 +109,6 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         for (option in options) {
-            option.setTextColor(Color.parseColor("#7A8089"))
             option.background = ContextCompat.getDrawable(this, R.drawable.default_option_border)
         }
     }
@@ -106,7 +116,6 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
         defaultOptionsView()
         selectedOption = selectedOptionNum
-        tv.setTextColor(Color.parseColor("#363A43"))
         tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border)
     }
 
@@ -157,6 +166,25 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             2 -> binding.tvAnswer2.background = ContextCompat.getDrawable(this, drawableView)
             3 -> binding.tvAnswer3.background = ContextCompat.getDrawable(this, drawableView)
             4 -> binding.tvAnswer4.background = ContextCompat.getDrawable(this, drawableView)
+        }
+    }
+
+    private fun toggleThemeMode() {
+        val nightModeFlags = AppCompatDelegate.getDefaultNightMode()
+
+        if (nightModeFlags == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }
+
+    private fun updateThemeModeButton() {
+        val nightModeFlags = AppCompatDelegate.getDefaultNightMode()
+        if (nightModeFlags == AppCompatDelegate.MODE_NIGHT_YES) {
+            binding.themeModeButton.setBackgroundResource(R.drawable.moon)
+        } else {
+            binding.themeModeButton.setBackgroundResource(R.drawable.sun)
         }
     }
 }

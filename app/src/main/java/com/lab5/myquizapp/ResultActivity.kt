@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.lab5.myquizapp.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {
@@ -23,8 +24,43 @@ class ResultActivity : AppCompatActivity() {
         binding.tvScore.text = "Your Score is $correctAnswers out of $totalQuestions"
 
         binding.btnFinish.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            handleFinishButtonClick()
+        }
+
+        binding.themeModeButton.setOnClickListener {
+            toggleThemeMode()
+        }
+
+        updateThemeModeButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateThemeModeButton()
+    }
+
+    private fun handleFinishButtonClick() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+
+    private fun toggleThemeMode() {
+        val nightModeFlags = AppCompatDelegate.getDefaultNightMode()
+
+        if (nightModeFlags == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }
+
+    private fun updateThemeModeButton() {
+        val nightModeFlags = AppCompatDelegate.getDefaultNightMode()
+        if (nightModeFlags == AppCompatDelegate.MODE_NIGHT_YES) {
+            binding.themeModeButton.setBackgroundResource(R.drawable.moon)
+        } else {
+            binding.themeModeButton.setBackgroundResource(R.drawable.sun)
         }
     }
 }
