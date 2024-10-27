@@ -8,7 +8,6 @@
 - [Demo Video](#demo-video)
 - [Application Screenshot](#application-screenshot)
 - [Credits](#credits)
-- [Creator]
 
 
 ---
