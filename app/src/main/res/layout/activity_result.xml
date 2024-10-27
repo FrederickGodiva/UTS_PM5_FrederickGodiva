@@ -17,9 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/result"
-            android:textColor="@color/primary"
-            android:textStyle="bold"
-            android:textSize="48sp"
+            style="@style/result"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,10 +28,10 @@
             android:id="@+id/iv_trophy"
             android:layout_width="230dp"
             android:layout_height="230dp"
+            android:src="@drawable/trophy"
+            android:contentDescription="@string/trophy"
             android:layout_marginHorizontal="48dp"
             android:layout_marginVertical="64dp"
-            android:contentDescription="@string/trophy"
-            android:src="@drawable/trophy"
             app:layout_constraintTop_toBottomOf="@+id/tv_result"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -43,31 +41,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hey_congrats"
-            android:textColor="@color/primary"
-            android:textSize="32sp"
+            style="@style/congrats"
             app:layout_constraintTop_toBottomOf="@+id/iv_trophy"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="36dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Username"
-            android:textSize="32sp"
+            style="@style/username"
             app:layout_constraintTop_toBottomOf="@+id/tv_congratulations"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="54dp"  />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/tv_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Your Score is 9 out of 10"
-            android:textSize="24sp"
-            android:textColor="@color/secondary"
+            style="@style/score"
             app:layout_constraintTop_toBottomOf="@+id/tv_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -77,14 +71,10 @@
             android:layout_width="335dp"
             android:layout_height="wrap_content"
             android:text="@string/finish"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/primary"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            style="@style/button.finish"
             app:layout_constraintTop_toBottomOf="@+id/tv_score"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="48dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

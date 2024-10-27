@@ -2,7 +2,77 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MyQuizApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="android:fontFamily">@font/jetbrainsmono</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="mainTitle">
+        <item name="android:textSize">48sp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:layout_margin">36dp</item>
+    </style>
+
+    <style name="welcomeText">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/secondary</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_margin">36dp</item>
+    </style>
+
+    <style name="enterYourName">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="button">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/primary</item>
+        <item name="android:layout_margin">48dp</item>
+    </style>
+
+    <style name="question">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="progress">
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">15dp</item>
+    </style>
+
+    <style name="option">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@drawable/default_option_border</item>
+        <item name="android:layout_marginTop">36dp</item>
+    </style>
+
+    <style name="result">
+        <item name="android:textSize">48sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <style name="congrats">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:layout_margin">36dp</item>
+    </style>
+
+    <style name="username">
+        <item name="android:textSize">32sp</item>
+        <item name="android:layout_margin">54dp</item>
+    </style>
+
+    <style name="score">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/secondary</item>
+    </style>
+
+    <style name="button.finish">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Theme.MyQuizApp" parent="Base.Theme.MyQuizApp" />
