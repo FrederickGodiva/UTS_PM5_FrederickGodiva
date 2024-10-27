@@ -114,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/submit"
-            style="@style/button"
+            style="@style/button.submit"
             app:layout_constraintTop_toBottomOf="@+id/tv_answer_4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
