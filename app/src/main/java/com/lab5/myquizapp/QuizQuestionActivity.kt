@@ -15,7 +15,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityQuizQuestionBinding
     private lateinit var userName: String
-    private var correctAnswer: Int = 0
+    private var score: Int = 0
     private var currentQuestion: Int = 1
     private lateinit var questions: ArrayList<QuizQuestion.Question>
     private var selectedOption: Int = 0
@@ -23,7 +23,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        
+
         binding = ActivityQuizQuestionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -43,11 +43,23 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+        savedInstanceState?.let {
+            currentQuestion = it.getInt("currentQuestion", 1)
+            selectedOption = it.getInt("selectedOption", 0)
+            score = it.getInt("correctAnswer", 0)
+        }
+
         setQuestion()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("currentQuestion", currentQuestion)
+        outState.putInt("selectedOption", selectedOption)
+        outState.putInt("correctAnswer", score)
+    }
+
     private fun setQuestion() {
-        defaultOptionsView()
         val question = questions[currentQuestion - 1]
 
         binding.ivLogo.setImageResource(question.image)
@@ -65,6 +77,16 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             "SUBMIT"
         }
+
+        if (selectedOption != 0) {
+            when (selectedOption) {
+                1 -> selectedOptionView(binding.tvAnswer1, 1)
+                2 -> selectedOptionView(binding.tvAnswer2, 2)
+                3 -> selectedOptionView(binding.tvAnswer3, 3)
+                4 -> selectedOptionView(binding.tvAnswer4, 4)
+            }
+        }
+        defaultOptionsView()
     }
 
     private fun defaultOptionsView() {
@@ -107,7 +129,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                 if (it.correctAnswer != selectedOption) {
                     answerView(selectedOption, R.drawable.wrong_option_border)
                 } else {
-                    correctAnswer++
+                    score++
                 }
                 answerView(it.correctAnswer, R.drawable.correct_option_border)
             }
@@ -120,7 +142,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             } else {
                 val intent = Intent(this, ResultActivity::class.java)
                 intent.putExtra("username", userName)
-                intent.putExtra("score", correctAnswer)
+                intent.putExtra("score", score)
                 intent.putExtra("total_questions", questions.size)
                 startActivity(intent)
                 finish()
